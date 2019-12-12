@@ -1,0 +1,189 @@
+package com.example.paratechdevelopers.scientificcalc;
+import java.util.Stack;
+import java.lang.*;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Stack;
+
+public class MainActivity extends AppCompatActivity {
+    double ans=0;
+    private EditText edt_disp;
+    private Button btn_calculate,btn_ac,btn_ans;
+    private TextView txt_ans;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        txt_ans = findViewById(R.id.txt_ans);
+        edt_disp = findViewById(R.id.edt_disp);
+        btn_calculate = findViewById(R.id.btn_calculate);
+        btn_ac = findViewById(R.id.btn_ac);
+        btn_ans = findViewById(R.id.btn_ans);
+
+//        btn_calculate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onSubmitted();
+//            }
+//        });
+//        btn_ac.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onClear();
+//            }
+//        });
+//        btn_ans.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onAns();
+//            }
+//        });
+    }
+    public void onCalculate(View v){
+        String exp = edt_disp.getText().toString().trim();
+        if(!exp.isEmpty()){
+            ans = calc(exp);
+            txt_ans.setText(""+ans);
+//            edt_disp.setSelection(edt_disp.getText().length());
+        }
+
+
+    }
+    public void onClear(View v){
+        edt_disp.setText("");
+    }
+    public void onAns(View v){
+        String exp = edt_disp.getText().toString().trim();
+        edt_disp.setText(exp+ans);
+        edt_disp.setSelection(edt_disp.getText().length());
+    }
+    public double calc(String exp){
+
+        char[] tokens = exp.toCharArray();
+        // Stack for numbers: 'values'
+        // Stack for numbers: 'values'
+        Stack<Double> values = new Stack<Double>();
+
+        // Stack for Operators: 'ops'
+        Stack<Character> ops = new Stack<Character>();
+
+        for (int i = 0; i < tokens.length; i++)
+        {
+            // Current token is a whitespace, skip it
+            if (tokens[i] == ' ')
+                continue;
+
+            // Current token is a number, push it to stack for numbers
+            if ((tokens[i] >= '0' && tokens[i] <= '9' ) || tokens[i] == '.')
+            {
+                StringBuffer sbuf = new StringBuffer();
+                boolean flag = false;
+                // There may be more than one digits in number
+                while (i < tokens.length && ((tokens[i] >= '0' && tokens[i] <= '9') || tokens[i] == '.')){
+                    if(tokens[i]=='.'){
+                        if(flag==false)
+                            flag = true;
+                        else
+                            return 0;
+                    }
+
+                    sbuf.append(tokens[i++]);
+                }
+
+                values.push(Double.parseDouble(sbuf.toString()));
+                i--;
+            }
+
+            // Current token is an opening brace, push it to 'ops'
+            else if (tokens[i] == '(')
+                ops.push(tokens[i]);
+
+                // Closing brace encountered, solve entire brace
+            else if (tokens[i] == ')')
+            {
+                while (ops.peek() != '(')
+                    values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+                ops.pop();
+            }
+
+            else if(tokens[i]=='!'){
+                values.push(fact(values.pop()));
+            }
+
+            // Current token is an operator.
+            else if (tokens[i] == '+' || tokens[i] == '-' ||
+                    tokens[i] == '*' || tokens[i] == '/' || tokens[i]=='%' || tokens[i] == '^')
+            {
+                // While top of 'ops' has same or greater precedence to current
+                // token, which is an operator. Apply operator on top of 'ops'
+                // to top two elements in values stack
+                while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
+                    values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+
+                // Push current token to 'ops'.
+                ops.push(tokens[i]);
+            }
+        }
+
+        // Entire expression has been parsed at this point, apply remaining
+        // ops to remaining values
+        while (!ops.empty())
+            values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+
+        // Top of 'values' contains result, return it
+        if(!values.empty())
+            return values.pop();
+        else
+            return 0;
+    }
+
+    public boolean hasPrecedence(char op1, char op2)
+    {
+        if (op2 == '(' || op2 == ')')
+            return false;
+        if ((op1 == '*' || op1 == '/' || op1=='%'||op1=='^') && (op2 == '+' || op2 == '-'))
+            return false;
+        else
+            return true;
+    }
+
+    // A utility method to apply an operator 'op' on operands 'a'
+    // and 'b'. Return the result.
+    public double applyOp(char op, double b, double a)
+    {
+        switch (op)
+        {
+            case '+':
+                return a + b;
+            case '-':
+                return a - b;
+            case '*':
+                return a * b;
+            case '/':
+                if (b == 0)
+                    throw new
+                            UnsupportedOperationException("Cannot divide by zero");
+                return a / b;
+            case '^':
+                return Math.pow(a,b);
+            case '%':
+                return a%b;
+        }
+        return 0;
+    }
+
+    public double fact(double x){
+        double ans = 1;
+        for(int i=1;i<=x;i++){
+            ans*=i;
+        }
+        return ans;
+    }
+
+}
