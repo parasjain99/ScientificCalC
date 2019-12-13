@@ -14,8 +14,9 @@ import java.util.Stack;
 public class MainActivity extends AppCompatActivity {
     double ans=0;
     private EditText edt_disp;
-    private Button btn_calculate,btn_ac,btn_ans;
+    private Button btn_calculate,btn_ac,btn_ans,btn_c;
     private TextView txt_ans;
+    static final double pi = 3.14159265358979323846264338327950288419716939937510582;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void onClear(View v){
+        txt_ans.setText("");
+    }
+    public void onAClear(View v){
         edt_disp.setText("");
     }
     public void onAns(View v){
@@ -76,8 +80,22 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < tokens.length; i++)
         {
             // Current token is a whitespace, skip it
-            if (tokens[i] == ' ')
-                continue;
+//            if (tokens[i] == ' ')
+//                continue;
+            if(tokens[i]=='π'){
+                if((i-1>-1)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π')){
+                    values.push(applyOp('*',pi , values.pop()));
+                    }
+                else{
+                    values.push(pi);
+                }
+                if(((i+1)<tokens.length) && ((tokens[i+1]>='0'&&tokens[i+1]<='9')||tokens[i+1]=='(')){
+                    tokens[i]='*';
+//                        i--;
+//                        continue;
+                }
+
+            }
 
             // Current token is a number, push it to stack for numbers
             if ((tokens[i] >= '0' && tokens[i] <= '9' ) || tokens[i] == '.')
@@ -85,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 StringBuffer sbuf = new StringBuffer();
                 boolean flag = false;
                 // There may be more than one digits in number
+
                 while (i < tokens.length && ((tokens[i] >= '0' && tokens[i] <= '9') || tokens[i] == '.')){
                     if(tokens[i]=='.'){
                         if(flag==false)
@@ -123,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 // While top of 'ops' has same or greater precedence to current
                 // token, which is an operator. Apply operator on top of 'ops'
                 // to top two elements in values stack
-                while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
+                while (!ops.empty() && (precedence(tokens[i])< precedence(ops.peek())))
                     values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 
                 // Push current token to 'ops'.
@@ -137,21 +156,17 @@ public class MainActivity extends AppCompatActivity {
             values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 
         // Top of 'values' contains result, return it
-        if(!values.empty())
-            return values.pop();
+        if(!values.empty()){
+            double tem = values.pop();
+            if(values.empty())
+                return tem;
+            else
+                return 0;
+        }
         else
             return 0;
     }
 
-    public boolean hasPrecedence(char op1, char op2)
-    {
-        if (op2 == '(' || op2 == ')')
-            return false;
-        if ((op1 == '*' || op1 == '/' || op1=='%'||op1=='^') && (op2 == '+' || op2 == '-'))
-            return false;
-        else
-            return true;
-    }
 
     // A utility method to apply an operator 'op' on operands 'a'
     // and 'b'. Return the result.
@@ -184,6 +199,15 @@ public class MainActivity extends AppCompatActivity {
             ans*=i;
         }
         return ans;
+    }
+    int precedence(char op){
+        if(op == '+' || op == '-')
+            return 1;
+        else if(op =='*' || op == '/')
+            return 2;
+        else if(op == '^')
+            return 3;
+        else return 0;
     }
 
 }
