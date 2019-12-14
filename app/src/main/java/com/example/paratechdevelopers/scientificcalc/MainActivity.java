@@ -11,8 +11,20 @@ import android.widget.Toast;
 
 import java.util.Stack;
 
+class Ans{
+    Double a;
+    String msg;
+    boolean isError;
+    Ans(){
+        a = 0.0;
+        msg = "";
+        isError = false;
+    }
+}
+
 public class MainActivity extends AppCompatActivity {
-    double ans=0;
+    Ans ans = new Ans();
+//    double ans=0;
     private EditText edt_disp;
     private Button btn_calculate,btn_ac,btn_ans,btn_c;
     private TextView txt_ans;
@@ -49,26 +61,27 @@ public class MainActivity extends AppCompatActivity {
     public void onCalculate(View v){
         String exp = edt_disp.getText().toString().trim();
         if(!exp.isEmpty()){
+
             ans = calc(exp);
-            txt_ans.setText(""+ans);
+            txt_ans.setText(""+ans.a);
 //            edt_disp.setSelection(edt_disp.getText().length());
         }
 
 
     }
-    public void onClear(View v){
+    public void onAClear(View v){
         txt_ans.setText("");
     }
-    public void onAClear(View v){
+    public void onClear(View v){
         edt_disp.setText("");
     }
     public void onAns(View v){
         String exp = edt_disp.getText().toString().trim();
-        edt_disp.setText(exp+ans);
+        edt_disp.setText(exp+ans.a);
         edt_disp.setSelection(edt_disp.getText().length());
     }
-    public double calc(String exp){
-
+    public Ans calc(String exp){
+        Ans ret = new Ans();
         char[] tokens = exp.toCharArray();
         // Stack for numbers: 'values'
         // Stack for numbers: 'values'
@@ -79,9 +92,16 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < tokens.length; i++)
         {
+            if(tokens[i]=='×'){
+                tokens[i]='*';
+            }
+            if(tokens[i]=='÷'){
+                tokens[i]='/';
+            }
             // Current token is a whitespace, skip it
 //            if (tokens[i] == ' ')
 //                continue;
+
             if(tokens[i]=='π'){
                 if((i-1>-1)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π')){
                     values.push(applyOp('*',pi , values.pop()));
@@ -104,12 +124,17 @@ public class MainActivity extends AppCompatActivity {
                 boolean flag = false;
                 // There may be more than one digits in number
 
-                while (i < tokens.length && ((tokens[i] >= '0' && tokens[i] <= '9') || tokens[i] == '.')){
+                while
+                (i < tokens.length && ((tokens[i] >= '0' && tokens[i] <= '9') || tokens[i] == '.')){
                     if(tokens[i]=='.'){
                         if(flag==false)
                             flag = true;
-                        else
-                            return 0;
+                        else{
+                            ret.msg="more than one decimal point";
+                            ret.isError = true;
+                            return ret;
+                        }
+
                     }
 
                     sbuf.append(tokens[i++]);
@@ -148,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 // Push current token to 'ops'.
                 ops.push(tokens[i]);
             }
+
         }
 
         // Entire expression has been parsed at this point, apply remaining
@@ -156,15 +182,18 @@ public class MainActivity extends AppCompatActivity {
             values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 
         // Top of 'values' contains result, return it
+
         if(!values.empty()){
-            double tem = values.pop();
-            if(values.empty())
-                return tem;
-            else
-                return 0;
+            ret.a = values.pop();
         }
-        else
-            return 0;
+        if(values.empty()&&ops.empty())
+            return ret;
+        else{
+            ret.isError = true;
+            ret.msg = "invalid expression";
+            ret.a = 0.0;
+            return ret;
+        }
     }
 
 
@@ -209,5 +238,4 @@ public class MainActivity extends AppCompatActivity {
             return 3;
         else return 0;
     }
-
 }
