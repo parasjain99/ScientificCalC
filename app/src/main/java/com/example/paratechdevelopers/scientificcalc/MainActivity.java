@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public Ans calc(String exp){
         Ans ret = new Ans();
+        ret = ans;
         char[] tokens = exp.toCharArray();
         // Stack for numbers: 'values'
         // Stack for numbers: 'values'
@@ -123,8 +124,15 @@ public class MainActivity extends AppCompatActivity {
             }
             else if(tokens[i]=='-'){
                 if(i!=0){
-                    while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek())))
-                        values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+                    while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
+                        char ch = ops.pop();
+                        Double b = values.pop(), a = values.pop();
+                        if(ch=='/' && b ==0){
+                            ret.isError = true;
+                            return ret;
+                        }
+                        values.push(applyOp(ch, b, a));
+                    }
                     ops.push('+');
                 }
                 values.push(-1.0);
@@ -173,10 +181,15 @@ public class MainActivity extends AppCompatActivity {
             {
 //                boolean flg1 = false;
                 while (ops.peek() != '('){
-                    values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+                    char ch = ops.pop();
+                    Double b = values.pop(), a = values.pop();
+                    if(ch=='/' && b ==0){
+                        ret.isError = true;
+                        return ret;
+                    }
+                    values.push(applyOp(ch, b, a));
                     if(ops.isEmpty()){
                         ret.isError = true;
-                        ret.a = 0.0;
                         return ret;
                     }
                 }
@@ -197,8 +210,17 @@ public class MainActivity extends AppCompatActivity {
                 // While top of 'ops' has same or greater precedence to current
                 // token, which is an operator. Apply operator on top of 'ops'
                 // to top two elements in values stack
-                while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek())))
-                    values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+                while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
+                    char ch = ops.pop();
+                    Double b = values.pop(), a = values.pop();
+                    if(ch=='/' && b ==0){
+                        ret.isError = true;
+                        return ret;
+                    }
+
+                    values.push(applyOp(ch, b, a));
+                }
+
 
                 // Push current token to 'ops'.
                 ops.push(tokens[i]);
@@ -211,8 +233,15 @@ public class MainActivity extends AppCompatActivity {
         while (!ops.empty() && !values.empty()){
             if(ops.peek() == '!')
                 values.push(fact(values.pop()));
-            else if(values.size()>=2)
-                values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+            else if(values.size()>=2){
+                char ch = ops.pop();
+                Double b = values.pop(), a = values.pop();
+                if(ch=='/' && b ==0){
+                    ret.isError = true;
+                    return ret;
+                }
+                    values.push(applyOp(ch, b, a));
+            }
             else{
                 ret.isError = true;
                 return ret;
