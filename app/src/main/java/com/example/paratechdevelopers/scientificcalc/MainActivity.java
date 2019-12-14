@@ -98,14 +98,11 @@ public class MainActivity extends AppCompatActivity {
             if(tokens[i]=='×'){
                 tokens[i]='*';
             }
-            if(tokens[i]=='÷'){
+            else if(tokens[i]=='÷'){
                 tokens[i]='/';
             }
-            // Current token is a whitespace, skip it
-//            if (tokens[i] == ' ')
-//                continue;
 
-            if(tokens[i]=='π'){
+            else if(tokens[i]=='π'){
                 if((i-1>-1)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π')){
                     values.push(applyOp('*',pi , values.pop()));
                     }
@@ -114,9 +111,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(((i+1)<tokens.length) && ((tokens[i+1]>='0'&&tokens[i+1]<='9')||tokens[i+1]=='(')){
                     tokens[i]='*';
-//                        i--;
-//                        continue;
+
                 }
+
+            }
+            else if(tokens[i]=='-'){
+                if(i!=0){
+                    while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek())))
+                        values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+                    ops.push('+');
+                }
+                values.push(-1.0);
+                tokens[i] = 'o';
+
 
             }
 
@@ -172,13 +179,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Current token is an operator.
-            else if (tokens[i] == '+' || tokens[i] == '-' ||
+            else if (tokens[i] == '+' || tokens[i] == 'o' ||
                     tokens[i] == '*' || tokens[i] == '/' || tokens[i]=='%' || tokens[i] == '^')
             {
                 // While top of 'ops' has same or greater precedence to current
                 // token, which is an operator. Apply operator on top of 'ops'
                 // to top two elements in values stack
-                while (!ops.empty() && (precedence(tokens[i])< precedence(ops.peek())))
+                while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek())))
                     values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 
                 // Push current token to 'ops'.
@@ -233,6 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 return a - b;
             case '*':
                 return a * b;
+            case 'o':
+                return a * b;
             case '/':
                 if (b == 0)
                     throw new
@@ -241,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             case '^':
                 return Math.pow(a,b);
             case '%':
-                return a%b;
+                return a % b;
         }
         return 0;
     }
@@ -254,12 +263,18 @@ public class MainActivity extends AppCompatActivity {
         return ans;
     }
     int precedence(char op){
-        if(op == '+' || op == '-')
+        if(op == '-')
             return 1;
-        else if(op =='*' || op == '/')
+        else if(op == '+')
             return 2;
-        else if(op == '^')
+        else if(op =='*')
             return 3;
+        else if(op == '/' || op == '%')
+            return 4;
+        else if(op == '^')
+            return 5;
+        else if (op =='o')
+            return 100;
         else return 0;
     }
 }
