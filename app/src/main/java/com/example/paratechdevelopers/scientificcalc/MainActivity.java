@@ -61,10 +61,13 @@ public class MainActivity extends AppCompatActivity {
     public void onCalculate(View v){
         String exp = edt_disp.getText().toString().trim();
         if(!exp.isEmpty()){
-
             ans = calc(exp);
-            txt_ans.setText(""+ans.a);
-//            edt_disp.setSelection(edt_disp.getText().length());
+            if(!ans.isError){
+                txt_ans.setText(""+ans.a);
+            }
+            else
+                txt_ans.setText("Error");
+//
         }
 
 
@@ -151,9 +154,17 @@ public class MainActivity extends AppCompatActivity {
                 // Closing brace encountered, solve entire brace
             else if (tokens[i] == ')')
             {
-                while (ops.peek() != '(')
+//                boolean flg1 = false;
+                while (ops.peek() != '('){
                     values.push(applyOp(ops.pop(), values.pop(), values.pop()));
-                ops.pop();
+                    if(ops.isEmpty()){
+                        ret.isError = true;
+                        ret.a = 0.0;
+                        return ret;
+                    }
+                }
+
+                ops.pop(); // pop (
             }
 
             else if(tokens[i]=='!'){
@@ -178,13 +189,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Entire expression has been parsed at this point, apply remaining
         // ops to remaining values
-        while (!ops.empty())
-            values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+        while (!ops.empty() && !values.empty()){
+            if(ops.peek() == '!')
+                values.push(fact(values.pop()));
+            else if(values.size()>=2)
+                values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+            else{
+                ret.isError = true;
+                return ret;
+            }
+        }
+
 
         // Top of 'values' contains result, return it
 
         if(!values.empty()){
             ret.a = values.pop();
+        }
+        else{
+            ret.isError = true;
+            return ret;
         }
         if(values.empty()&&ops.empty())
             return ret;
