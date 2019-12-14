@@ -101,16 +101,22 @@ public class MainActivity extends AppCompatActivity {
             else if(tokens[i]=='÷'){
                 tokens[i]='/';
             }
+            else if(tokens[i]=='{'){
+                tokens[i]='(';
+            }
+            else if(tokens[i]=='}'){
+                tokens[i]=')';
+            }
 
             else if(tokens[i]=='π'){
-                if((i-1>-1)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π')){
+                if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π')){
                     values.push(applyOp('*',pi , values.pop()));
                     }
                 else{
                     values.push(pi);
                 }
                 if(((i+1)<tokens.length) && ((tokens[i+1]>='0'&&tokens[i+1]<='9')||tokens[i+1]=='(')){
-                    tokens[i]='*';
+                    tokens[i] = '*';
 
                 }
 
@@ -155,8 +161,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Current token is an opening brace, push it to 'ops'
-            else if (tokens[i] == '(')
+            else if (tokens[i] == '('){
+                if( i>0 && (tokens[i-1]>'0'&&tokens[i-1]<'9'))
+                    ops.push('*');
                 ops.push(tokens[i]);
+            }
+
 
                 // Closing brace encountered, solve entire brace
             else if (tokens[i] == ')')
@@ -170,8 +180,10 @@ public class MainActivity extends AppCompatActivity {
                         return ret;
                     }
                 }
-
                 ops.pop(); // pop (
+                if( i+1<tokens.length && ((tokens[i-1]>'0'&&tokens[i-1]<'9')||tokens[i]=='.'))
+                    ops.push('*');
+
             }
 
             else if(tokens[i]=='!'){
