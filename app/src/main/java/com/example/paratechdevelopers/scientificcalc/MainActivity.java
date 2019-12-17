@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCalculate(View v){
         String exp = edt_disp.getText().toString().trim();
         if(!exp.isEmpty()){
-            ans = calc(exp);
+            calc(exp);
             if(!ans.isError){
                 txt_ans.setText(""+ans.a);
             }
@@ -83,15 +83,9 @@ public class MainActivity extends AppCompatActivity {
         edt_disp.setText(exp+ans.a);
         edt_disp.setSelection(edt_disp.getText().length());
     }
-    public Ans calc(String exp){
-        Ans ret = new Ans();
-        ret = ans;
+    public void calc(String exp){
         char[] tokens = exp.toCharArray();
-        // Stack for numbers: 'values'
-        // Stack for numbers: 'values'
         Stack<Double> values = new Stack<Double>();
-
-        // Stack for Operators: 'ops'
         Stack<Character> ops = new Stack<Character>();
 
         for (int i = 0; i < tokens.length; i++)
@@ -110,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             else if(tokens[i]=='π'){
-                if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π')){
+                if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π'||tokens[i-1]==')')){
                     values.push(applyOp('*',pi , values.pop()));
                     }
                 else{
@@ -123,13 +117,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else if(tokens[i]=='-'){
-                if(i!=0){
-                    while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
+                if(i>0&&tokens[i-1]!='('&&tokens[i-1]!='*'&&tokens[i-1]!='/'&&tokens[i-1]!='^'){
+                    while (!ops.empty() && (precedence('+')<= precedence(ops.peek()))){
                         char ch = ops.pop();
                         Double b = values.pop(), a = values.pop();
                         if(ch=='/' && b ==0){
-                            ret.isError = true;
-                            return ret;
+                            ans.isError = true;
+                            return;
                         }
                         values.push(applyOp(ch, b, a));
                     }
@@ -154,9 +148,8 @@ public class MainActivity extends AppCompatActivity {
                         if(flag==false)
                             flag = true;
                         else{
-                            ret.msg="more than one decimal point";
-                            ret.isError = true;
-                            return ret;
+                            ans.isError = true;
+                            return;
                         }
 
                     }
@@ -184,17 +177,17 @@ public class MainActivity extends AppCompatActivity {
                     char ch = ops.pop();
                     Double b = values.pop(), a = values.pop();
                     if(ch=='/' && b ==0){
-                        ret.isError = true;
-                        return ret;
+                        ans.isError = true;
+                        return;
                     }
                     values.push(applyOp(ch, b, a));
                     if(ops.isEmpty()){
-                        ret.isError = true;
-                        return ret;
+                        ans.isError = true;
+                        return;
                     }
                 }
                 ops.pop(); // pop (
-                if( i+1<tokens.length && ((tokens[i-1]>'0'&&tokens[i-1]<'9')||tokens[i]=='.'))
+                if( i+1<tokens.length && ((tokens[i+1]>'0'&&tokens[i+1]<'9')||tokens[i+1]=='.'||(tokens[i+1]=='(')))
                     ops.push('*');
 
             }
@@ -210,12 +203,17 @@ public class MainActivity extends AppCompatActivity {
                 // While top of 'ops' has same or greater precedence to current
                 // token, which is an operator. Apply operator on top of 'ops'
                 // to top two elements in values stack
+                if(tokens[i+1] == '+' || tokens[i+1] == 'o' ||
+                        tokens[i+1] == '*' || tokens[i+1] == '/' || tokens[i+1]=='%' || tokens[i+1] == '^'){
+                    ans.isError = true;
+                    return;
+                }
                 while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
                     char ch = ops.pop();
                     Double b = values.pop(), a = values.pop();
                     if(ch=='/' && b ==0){
-                        ret.isError = true;
-                        return ret;
+                        ans.isError = true;
+                        return;
                     }
 
                     values.push(applyOp(ch, b, a));
@@ -230,21 +228,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Entire expression has been parsed at this point, apply remaining
         // ops to remaining values
-        while (!ops.empty() && !values.empty()){
-            if(ops.peek() == '!')
-                values.push(fact(values.pop()));
-            else if(values.size()>=2){
+        while (!ops.empty()) {
+            if(values.size()>=2){
                 char ch = ops.pop();
                 Double b = values.pop(), a = values.pop();
                 if(ch=='/' && b ==0){
-                    ret.isError = true;
-                    return ret;
+                    ans.isError = true;
+                    return;
                 }
-                    values.push(applyOp(ch, b, a));
+                values.push(applyOp(ch, b, a));
             }
             else{
-                ret.isError = true;
-                return ret;
+                ans.isError = true;
+                return;
             }
         }
 
@@ -252,19 +248,20 @@ public class MainActivity extends AppCompatActivity {
         // Top of 'values' contains result, return it
 
         if(!values.empty()){
-            ret.a = values.pop();
+            ans.a = values.pop();
         }
         else{
-            ret.isError = true;
-            return ret;
+            ans.isError = true;
+            return;
         }
-        if(values.empty()&&ops.empty())
-            return ret;
+        if(values.empty()&&ops.empty()){
+            ans.isError = false;
+            return;
+        }
+
         else{
-            ret.isError = true;
-            ret.msg = "invalid expression";
-            ret.a = 0.0;
-            return ret;
+            ans.isError = true;
+            return;
         }
     }
 
