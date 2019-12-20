@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText edt_disp;
     private Button btn_calculate,btn_ac,btn_ans,btn_c;
     private TextView txt_ans;
-    static final double pi = 3.14159265358979323846264338327950288419716939937510582;
+    static final double pi = 3.14159265358979323846264338327950288419716939937510582, eu = 2.7182818284590452353602874713527;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,12 +130,18 @@ public class MainActivity extends AppCompatActivity {
         {
 
 
-            if(tokens[i]=='π'){
-                if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π'||tokens[i-1]==')')){
-                    values.push(applyOp('*',pi , values.pop()));
+            if(tokens[i]=='π' || tokens[i]=='e'){
+                if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π'||tokens[i-1]=='e'||tokens[i-1]==')')){
+                    if(tokens[i]=='π')
+                        values.push(applyOp('*',pi , values.pop()));
+                    else if(tokens[i]=='e')
+                        values.push(applyOp('*',eu , values.pop()));
                     }
                 else{
-                    values.push(pi);
+                    if(tokens[i]=='π')
+                        values.push(pi);
+                    else if(tokens[i]=='e')
+                        values.push(eu);
                 }
                 if(((i+1)<tokens.length) && ((tokens[i+1]>='0'&&tokens[i+1]<='9')||tokens[i+1]=='(')){
                     tokens[i] = '*';
