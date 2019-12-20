@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btn_calculate = findViewById(R.id.btn_calculate);
         btn_ac = findViewById(R.id.btn_ac);
         btn_ans = findViewById(R.id.btn_ans);
+        btn_c = findViewById(R.id.btn_c);
 
 //        btn_calculate.setOnClickListener(new View.OnClickListener() {
 //            @Override
