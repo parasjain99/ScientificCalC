@@ -3,7 +3,10 @@ import java.util.Stack;
 import java.lang.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -58,6 +61,25 @@ public class MainActivity extends AppCompatActivity {
 //                onAns();
 //            }
 //        });
+        edt_disp.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    onCalculate(null);
+                }
+                return false;
+            }
+        });
+    }
+
+
+    public void onBtn(View v){
+        Button b = (Button)v;
+        String buttonText = edt_disp.getText().toString();
+        buttonText += b.getText().toString();
+        edt_disp.setText(buttonText);
+        edt_disp.setSelection(edt_disp.getText().length());
+
     }
     public void onCalculate(View v){
         String exp = edt_disp.getText().toString().trim();
@@ -89,8 +111,7 @@ public class MainActivity extends AppCompatActivity {
         Stack<Double> values = new Stack<Double>();
         Stack<Character> ops = new Stack<Character>();
 
-        for (int i = 0; i < tokens.length; i++)
-        {
+        for(int i = 0;i<tokens.length;i++){
             if(tokens[i]=='×'){
                 tokens[i]='*';
             }
@@ -103,8 +124,13 @@ public class MainActivity extends AppCompatActivity {
             else if(tokens[i]=='}'){
                 tokens[i]=')';
             }
+        }
 
-            else if(tokens[i]=='π'){
+        for (int i = 0; i < tokens.length; i++)
+        {
+
+
+            if(tokens[i]=='π'){
                 if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π'||tokens[i-1]==')')){
                     values.push(applyOp('*',pi , values.pop()));
                     }
