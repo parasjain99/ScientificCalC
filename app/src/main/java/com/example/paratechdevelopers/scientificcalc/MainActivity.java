@@ -158,11 +158,13 @@ public class MainActivity extends AppCompatActivity {
             if(tokens[i]=='π' || tokens[i]=='e'){
                 if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π'||tokens[i-1]=='e'||tokens[i-1]==')')){
                     if(tokens[i]=='π'){
-                        values.push(applyOp('*',pi , values.pop()));
+                        values.push(pi);
+                        values.push(applyOp('*', values));
                     }
 
                     else if(tokens[i]=='e')
-                        values.push(applyOp('*',eu , values.pop()));
+                        values.push(eu);
+                        values.push(applyOp('*', values));
                     }
                 else{
                     if(tokens[i]=='π')
@@ -186,7 +188,9 @@ public class MainActivity extends AppCompatActivity {
                             ans.isError = true;
                             return;
                         }
-                        values.push(applyOp(ch, b, a));
+                        values.push(a);
+                        values.push(b);
+                        values.push(applyOp(ch, values));
                     }
                     ops.push('+');
                 }
@@ -241,7 +245,9 @@ public class MainActivity extends AppCompatActivity {
                         ans.isError = true;
                         return;
                     }
-                    values.push(applyOp(ch, b, a));
+                    values.push(a);
+                    values.push(b);
+                    values.push(applyOp(ch,values));
                     if(ops.isEmpty()){
                         ans.isError = true;
                         return;
@@ -276,8 +282,9 @@ public class MainActivity extends AppCompatActivity {
                         ans.isError = true;
                         return;
                     }
-
-                    values.push(applyOp(ch, b, a));
+                    values.push(a);
+                    values.push(b);
+                    values.push(applyOp(ch, values));
                 }
 
 
@@ -297,7 +304,9 @@ public class MainActivity extends AppCompatActivity {
                     ans.isError = true;
                     return;
                 }
-                values.push(applyOp(ch, b, a));
+                values.push(a);
+                values.push(b);
+                values.push(applyOp(ch, values));
             }
             else{
                 ans.isError = true;
@@ -329,8 +338,10 @@ public class MainActivity extends AppCompatActivity {
 
     // A utility method to apply an operator 'op' on operands 'a'
     // and 'b'. Return the result.
-    public double applyOp(char op, double b, double a)
+    public double applyOp(char op, Stack<Double> val)
     {
+
+        double a, b = val.pop();
 
         switch (op)
         {
@@ -351,21 +362,28 @@ public class MainActivity extends AppCompatActivity {
             case 't':
                 return Math.atan(b);
             case '+':
+                a = val.pop();
                 return a + b;
             case '-':
+                a = val.pop();
                 return a - b;
             case '*':
+                a = val.pop();
                 return a * b;
             case 'o':
+                a = val.pop();
                 return a * b;
             case '/':
                 if (b == 0)
                     throw new
                             UnsupportedOperationException("Cannot divide by zero");
+                a = val.pop();
                 return a / b;
             case '^':
+                a = val.pop();
                 return Math.pow(a,b);
             case '%':
+                a = val.pop();
                 return a % b;
         }
         return 0;
