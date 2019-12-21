@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         String buttonText = b.getText().toString();
         if(buttonText=="Ans")
             buttonText = ""+ans.a;
-
+        if(buttonText.length()>1)
+            buttonText+="(";
         int start = Math.max(edt_disp.getSelectionStart(), 0);
         int end = Math.max(edt_disp.getSelectionEnd(), 0);
         int x = Math.min(start, end);
@@ -123,13 +124,14 @@ public class MainActivity extends AppCompatActivity {
         edt_disp.setSelection(edt_disp.getText().length());
     }
     public void calc(String exp){
-        exp = exp.toLowerCase();
-        exp = exp.replace("sin","S");
-        exp = exp.replace("cos","C");
-        exp = exp.replace("tan","T");
-        exp = exp.replace("log","L");
-        exp = exp.replace("ln","N");
+//        exp = exp.toLowerCase();
+        exp = exp.replaceAll("sin","(S");
+        exp = exp.replaceAll("cos","(C");
+        exp = exp.replaceAll("tan","(T");
+        exp = exp.replaceAll("log","(L");
+        exp = exp.replaceAll("ln","(N");
 //        exp = exp.replace("sin","S");
+//        edt_disp.setText(exp);
 
 
         char[] tokens = exp.toCharArray();
@@ -159,13 +161,24 @@ public class MainActivity extends AppCompatActivity {
                 if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π'||tokens[i-1]=='e'||tokens[i-1]==')')){
                     if(tokens[i]=='π'){
                         values.push(pi);
-                        values.push(applyOp('*', values));
+                        ops.push('*');
+                        if(applyOp(ops, values)){
+                            ans.isError=true;
+                            return;
+                        }
+
                     }
 
-                    else if(tokens[i]=='e')
+                    else if(tokens[i]=='e'){
                         values.push(eu);
-                        values.push(applyOp('*', values));
+                        ops.push('*');
+                        if(applyOp(ops, values)){
+                            ans.isError=true;
+                            return;
+                        }
                     }
+
+                }
                 else{
                     if(tokens[i]=='π')
                         values.push(pi);
@@ -176,21 +189,20 @@ public class MainActivity extends AppCompatActivity {
                     tokens[i] = '*';
 
                 }
-
-
             }
+
             else if(tokens[i]=='-'){
                 if(i>0&&tokens[i-1]!='('&&tokens[i-1]!='*'&&tokens[i-1]!='/'&&tokens[i-1]!='^'){
                     while (!ops.empty() && (precedence('+')<= precedence(ops.peek()))){
-                        char ch = ops.pop();
-                        Double b = values.pop(), a = values.pop();
-                        if(ch=='/' && b ==0){
+                        char ch = ops.peek();
+                        if(ch=='/' && values.peek() ==0){
                             ans.isError = true;
                             return;
                         }
-                        values.push(a);
-                        values.push(b);
-                        values.push(applyOp(ch, values));
+                        if(applyOp(ops, values)){
+                            ans.isError=true;
+                            return;
+                        }
                     }
                     ops.push('+');
                 }
@@ -239,21 +251,28 @@ public class MainActivity extends AppCompatActivity {
             {
 //                boolean flg1 = false;
                 while (ops.peek() != '('){
-                    char ch = ops.pop();
-                    Double b = values.pop(), a = values.pop();
-                    if(ch=='/' && b ==0){
+                    char ch = ops.peek();
+                    if(ch=='/' && values.peek() ==0){
                         ans.isError = true;
                         return;
                     }
-                    values.push(a);
-                    values.push(b);
-                    values.push(applyOp(ch,values));
+                    if(applyOp(ops, values)){
+                        ans.isError=true;
+                        return;
+                    }
                     if(ops.isEmpty()){
                         ans.isError = true;
                         return;
                     }
                 }
                 ops.pop(); // pop (
+                char ch = ops.peek();
+                if(ch=='S'||ch=='C'||ch=='T'||ch=='s'||ch=='c'||ch=='t'||ch=='L'||ch=='N'){
+                    if(applyOp(ops, values)){
+                        ans.isError=true;
+                        return;
+                    }
+                }
                 if( i+1<tokens.length && ((tokens[i+1]>'0'&&tokens[i+1]<'9')||tokens[i+1]=='.'||(tokens[i+1]=='(')))
                     ops.push('*');
 
@@ -265,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Current token is an operator.
             else if (tokens[i] == '+' || tokens[i] == 'o' ||
-                    tokens[i] == '*' || tokens[i] == '/' || tokens[i]=='%' || tokens[i] == '^')
+                    tokens[i] == '*' || tokens[i] == '/' || tokens[i]=='%' || tokens[i] == '^'||tokens[i] == 'S'||tokens[i] == 'C'||tokens[i] == 'T'||tokens[i] == 's'||tokens[i] == 'c'||tokens[i] == 't'||tokens[i] == 'L'||tokens[i] == 'N')
             {
                 // While top of 'ops' has same or greater precedence to current
                 // token, which is an operator. Apply operator on top of 'ops'
@@ -276,18 +295,17 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
-                    char ch = ops.pop();
-                    Double b = values.pop(), a = values.pop();
-                    if(ch=='/' && b ==0){
+                    char ch = ops.peek();
+
+                    if(ch=='/' && values.peek() ==0){
                         ans.isError = true;
                         return;
                     }
-                    values.push(a);
-                    values.push(b);
-                    values.push(applyOp(ch, values));
+                    if(applyOp(ops, values)){
+                        ans.isError=true;
+                        return;
+                    }
                 }
-
-
                 // Push current token to 'ops'.
                 ops.push(tokens[i]);
             }
@@ -297,16 +315,11 @@ public class MainActivity extends AppCompatActivity {
         // Entire expression has been parsed at this point, apply remaining
         // ops to remaining values
         while (!ops.empty()) {
-            if(values.size()>=2){
-                char ch = ops.pop();
-                Double b = values.pop(), a = values.pop();
-                if(ch=='/' && b ==0){
-                    ans.isError = true;
+            if(values.size()>0){
+                if(applyOp(ops, values)){
+                    ans.isError=true;
                     return;
                 }
-                values.push(a);
-                values.push(b);
-                values.push(applyOp(ch, values));
             }
             else{
                 ans.isError = true;
@@ -338,55 +351,116 @@ public class MainActivity extends AppCompatActivity {
 
     // A utility method to apply an operator 'op' on operands 'a'
     // and 'b'. Return the result.
-    public double applyOp(char op, Stack<Double> val)
+    public boolean applyOp(Stack<Character> ops, Stack<Double> val)
     {
-
+        if(ops.isEmpty())
+            return true;
+        char op = ops.pop();
+        if(val.isEmpty())
+            return true;
         double a, b = val.pop();
 
         switch (op)
         {
-            case 'L':
-                return Math.log10(b);
-            case 'N':
-                return Math.log(b);
-            case 'S':
-                return Math.sin(b);
-            case 'C':
-                return Math.cos(b);
-            case 'T':
-                return Math.tan(b);
-            case 's':
-                return Math.asin(b);
-            case 'c':
-                return Math.acos(b);
-            case 't':
-                return Math.atan(b);
-            case '+':
+            case 'L':{
+                ops.pop();
+                val.push(Math.log10(b));
+                return false;
+            }
+
+            case 'N':{
+                ops.pop();
+                val.push(Math.log(b));
+                return false;
+            }
+
+            case 'S':{
+                ops.pop();
+                val.push(Math.sin(b)) ;
+                return false;
+            }
+
+            case 'C':{
+                ops.pop();
+                val.push(Math.cos(b)) ;
+                return false;
+            }
+
+            case 'T':{
+                ops.pop();
+                val.push(Math.tan(b));
+                return false;
+            }
+
+            case 's':{
+                ops.pop();
+                val.push(Math.asin(b));
+                return false;
+            }
+            case 'c':{
+                ops.pop();
+                val.push(Math.acos(b));
+                return false;
+            }
+
+            case 't':{
+                ops.pop();
+                val.push(Math.atan(b));
+                return false;
+            }
+
+            case '+':{
+                if(val.isEmpty())
+                    return true;
                 a = val.pop();
-                return a + b;
-            case '-':
+                val.push(a + b) ;
+                return false;
+            }
+
+            case '-':{
+                if(val.isEmpty())
+                    return true;
                 a = val.pop();
-                return a - b;
-            case '*':
+                val.push(a - b) ;
+                return false;
+            }
+            case '*':{
+                if(val.isEmpty())
+                    return true;
                 a = val.pop();
-                return a * b;
-            case 'o':
+                val.push(a * b) ;
+                return false;
+            }
+            case 'o':{
+                if(val.isEmpty())
+                    return true;
                 a = val.pop();
-                return a * b;
-            case '/':
-                if (b == 0)
-                    throw new
-                            UnsupportedOperationException("Cannot divide by zero");
+                val.push(a * b) ;
+                return false;
+            }
+            case '/':{
+                if(val.isEmpty()||b==0)
+                    return true;
                 a = val.pop();
-                return a / b;
-            case '^':
+                val.push(a / b) ;
+                return false;
+            }
+            case '^':{
+                if(val.isEmpty())
+                    return true;
                 a = val.pop();
-                return Math.pow(a,b);
-            case '%':
+                val.push(Math.pow(a,b)) ;
+                return false;
+            }
+            case '%':{
+                if(val.isEmpty()||b==0)
+                    return true;
                 a = val.pop();
-                return a % b;
+                val.push(a % b) ;
+                return false;
+            }
         }
-        return 0;
+        return true;
     }
 
     public double fact(double x){
@@ -407,6 +481,8 @@ public class MainActivity extends AppCompatActivity {
             return 4;
         else if(op == '^')
             return 5;
+        else if(op == 'S'||op == 'C'||op == 'T'||op == 'L'||op == 'N'||op == 's'||op == 'c'||op == 't')
+            return 6;
         else if (op =='o')
             return 100;
         else return 0;

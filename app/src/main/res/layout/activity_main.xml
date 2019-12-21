@@ -99,7 +99,6 @@
                     android:text="deg"
                     android:textAllCaps="true"
                     android:background="#004D40"
-                    android:onClick="onBtn"
                     android:textColor="#ECEFF1"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
@@ -113,7 +112,7 @@
                     android:background="#004D40"
                     android:onClick="onBtn"
                     android:textColor="#ECEFF1"
-                    android:text="Sin"
+                    android:text="sin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
@@ -124,7 +123,7 @@
                     android:background="#004D40"
                     android:onClick="onBtn"
                     android:textColor="#ECEFF1"
-                    android:text="Cos"
+                    android:text="cos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -136,7 +135,7 @@
                     android:background="#004D40"
                     android:onClick="onBtn"
                     android:textColor="#ECEFF1"
-                    android:text="Tan"
+                    android:text="tan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
