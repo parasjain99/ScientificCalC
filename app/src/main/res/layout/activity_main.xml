@@ -20,7 +20,7 @@
                 android:textColor="#ECEFF1"
                 android:hint="0"
                 android:textColorHint="#607D8B"
-                android:inputType="numberDecimal"
+                android:inputType="phone"
                 android:textCursorDrawable="@null"
                 android:background="@android:color/transparent"
                 android:textAlignment="textEnd"

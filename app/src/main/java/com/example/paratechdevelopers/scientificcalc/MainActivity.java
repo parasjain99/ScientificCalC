@@ -75,10 +75,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBtn(View v){
         Button b = (Button)v;
-        String buttonText = edt_disp.getText().toString();
-        buttonText += b.getText().toString();
-        edt_disp.setText(buttonText);
-        edt_disp.setSelection(edt_disp.getText().length());
+//        String buttonText = edt_disp.getText().toString();
+//        int x = edt_disp.getSelectionStart();
+//
+//        buttonText += b.getText().toString();
+//        edt_disp.setText(buttonText);
+//        edt_disp.setSelection(edt_disp.getText().length());
+        StringBuffer txt = new StringBuffer(edt_disp.getText().toString());
+        String buttonText = b.getText().toString();
+        if(buttonText=="Ans")
+            buttonText = ""+ans.a;
+
+        int start = Math.max(edt_disp.getSelectionStart(), 0);
+        int end = Math.max(edt_disp.getSelectionEnd(), 0);
+        int x = Math.min(start, end);
+        int y = Math.max(start, end);
+
+        txt.replace(x,y,
+                buttonText);
+        edt_disp.setText(txt);
+        edt_disp.setSelection(x+buttonText.length());
 
     }
     public void onCalculate(View v){
@@ -107,6 +123,15 @@ public class MainActivity extends AppCompatActivity {
         edt_disp.setSelection(edt_disp.getText().length());
     }
     public void calc(String exp){
+        exp = exp.toLowerCase();
+        exp = exp.replace("sin","S");
+        exp = exp.replace("cos","C");
+        exp = exp.replace("tan","T");
+        exp = exp.replace("log","L");
+        exp = exp.replace("ln","N");
+//        exp = exp.replace("sin","S");
+
+
         char[] tokens = exp.toCharArray();
         Stack<Double> values = new Stack<Double>();
         Stack<Character> ops = new Stack<Character>();
@@ -132,8 +157,10 @@ public class MainActivity extends AppCompatActivity {
 
             if(tokens[i]=='π' || tokens[i]=='e'){
                 if((i>0)&&((tokens[i-1]>='0'&&tokens[i-1]<='9')||tokens[i-1]=='π'||tokens[i-1]=='e'||tokens[i-1]==')')){
-                    if(tokens[i]=='π')
+                    if(tokens[i]=='π'){
                         values.push(applyOp('*',pi , values.pop()));
+                    }
+
                     else if(tokens[i]=='e')
                         values.push(applyOp('*',eu , values.pop()));
                     }
@@ -147,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     tokens[i] = '*';
 
                 }
+
 
             }
             else if(tokens[i]=='-'){
@@ -303,8 +331,25 @@ public class MainActivity extends AppCompatActivity {
     // and 'b'. Return the result.
     public double applyOp(char op, double b, double a)
     {
+
         switch (op)
         {
+            case 'L':
+                return Math.log10(b);
+            case 'N':
+                return Math.log(b);
+            case 'S':
+                return Math.sin(b);
+            case 'C':
+                return Math.cos(b);
+            case 'T':
+                return Math.tan(b);
+            case 's':
+                return Math.asin(b);
+            case 'c':
+                return Math.acos(b);
+            case 't':
+                return Math.atan(b);
             case '+':
                 return a + b;
             case '-':
