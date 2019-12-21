@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     public void onBtn(View v){
         Button b = (Button)v;
 //        String buttonText = edt_disp.getText().toString();
@@ -112,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     public void onAClear(View v){
         txt_ans.setText("");
     }
@@ -376,6 +376,8 @@ public class MainActivity extends AppCompatActivity {
 
             case 'S':{
                 ops.pop();
+
+                b=Math.toRadians(b);
                 val.push(Math.sin(b)) ;
                 return false;
             }

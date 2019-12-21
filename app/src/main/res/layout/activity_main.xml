@@ -97,7 +97,7 @@
                     android:id="@+id/btn_deg"
                     android:textSize="25dp"
                     android:text="deg"
-                    android:textAllCaps="true"
+                    android:textAllCaps="false"
                     android:background="#004D40"
                     android:textColor="#ECEFF1"
                     android:layout_weight="1"
