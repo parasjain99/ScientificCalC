@@ -376,7 +376,6 @@ public class MainActivity extends AppCompatActivity {
 
             case 'S':{
                 ops.pop();
-
                 b=Math.toRadians(b);
                 val.push(Math.sin(b)) ;
                 return false;
@@ -384,12 +383,14 @@ public class MainActivity extends AppCompatActivity {
 
             case 'C':{
                 ops.pop();
+                b=Math.toRadians(b);
                 val.push(Math.cos(b)) ;
                 return false;
             }
 
             case 'T':{
                 ops.pop();
+                b=Math.toRadians(b);
                 val.push(Math.tan(b));
                 return false;
             }
