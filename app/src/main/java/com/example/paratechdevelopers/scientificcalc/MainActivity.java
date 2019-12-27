@@ -26,11 +26,12 @@ class Ans{
 }
 
 public class MainActivity extends AppCompatActivity {
+    boolean isDegree = true;
     Ans ans = new Ans();
 //    double ans=0;
     private EditText edt_disp;
-    private Button btn_calculate,btn_ac,btn_ans,btn_c;
-    private TextView txt_ans;
+    private Button btn_calculate,btn_ac,btn_ans,btn_c, btn_onDeg;
+    private TextView txt_ans, txt_degRadId;
     static final double pi = 3.14159265358979323846264338327950288419716939937510582, eu = 2.7182818284590452353602874713527;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         btn_ac = findViewById(R.id.btn_ac);
         btn_ans = findViewById(R.id.btn_ans);
         btn_c = findViewById(R.id.btn_c);
+        btn_onDeg = findViewById(R.id.btn_deg);
+        txt_degRadId = findViewById(R.id.txt_degRadId);
 
 //        btn_calculate.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -61,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 //                onAns();
 //            }
 //        });
+
+        //to display answer on enter from keyboard
         edt_disp.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -71,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     public void onBtn(View v){
         Button b = (Button)v;
@@ -106,10 +113,20 @@ public class MainActivity extends AppCompatActivity {
             }
             else
                 txt_ans.setText("Error");
-//
         }
+    }
 
-
+    public  void onDeg(View v){
+        if(isDegree){
+            txt_degRadId.setText("RAD");
+            btn_onDeg.setText("DEG");
+            isDegree = false;
+        }
+        else{
+            txt_degRadId.setText("DEG");
+            btn_onDeg.setText("RAD");
+            isDegree = true;
+        }
     }
 
     public void onAClear(View v){
@@ -376,22 +393,37 @@ public class MainActivity extends AppCompatActivity {
 
             case 'S':{
                 ops.pop();
-                b=Math.toRadians(b);
+                if(isDegree)
+                    b=Math.toRadians(b);
                 val.push(Math.sin(b)) ;
+                if(val.peek()<Math.pow(10,-15)){
+                    val.pop();
+                    val.push(0d);
+                }
                 return false;
             }
 
             case 'C':{
                 ops.pop();
-                b=Math.toRadians(b);
+                if(isDegree)
+                    b=Math.toRadians(b);
                 val.push(Math.cos(b)) ;
+                if(val.peek()<Math.pow(10,-15)){
+                    val.pop();
+                    val.push(0d);
+                }
                 return false;
             }
 
             case 'T':{
                 ops.pop();
-                b=Math.toRadians(b);
+                if(isDegree)
+                    b=Math.toRadians(b);
                 val.push(Math.tan(b));
+                if(val.peek()<Math.pow(10,-15)){
+                    val.pop();
+                    val.push(0d);
+                }
                 return false;
             }
 

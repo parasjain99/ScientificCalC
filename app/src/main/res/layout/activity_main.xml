@@ -10,10 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_degRadId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DEG"
+                android:textColor="#ECEFF1"
+                android:textSize="25dp"
+                />
+
             <EditText
                 android:id="@+id/edt_disp"
                 android:textSize="80dp"
@@ -96,7 +105,8 @@
                 <Button
                     android:id="@+id/btn_deg"
                     android:textSize="25dp"
-                    android:text="deg"
+                    android:text="RAD"
+                    android:onClick="onDeg"
                     android:textAllCaps="false"
                     android:background="#004D40"
                     android:textColor="#ECEFF1"
