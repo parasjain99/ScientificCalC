@@ -311,7 +311,6 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="right"
-
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -349,7 +348,26 @@
                     android:text="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/btn_"
+                    android:textSize="25dp"
+                    android:layout_weight="1"
+                    android:background="#263238"
+                    android:textAllCaps="false"
+                    android:textColor="#1DE9B6"
+                    android:onClick="onBtn"
+                    android:text="\u232b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="right"
+
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/btn_4"
                     android:textSize="25dp"
@@ -361,13 +379,6 @@
                     android:text="4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_gravity="right"
-
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/btn_5"
                     android:text="5"
@@ -392,6 +403,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
+                    android:id="@+id/btn_dot"
+                    android:textSize="25dp"
+                    android:layout_weight="1"
+                    android:background="#263238"
+                    android:onClick="onBtn"
+                    android:textAllCaps="false"
+                    android:textColor="#ECEFF1"
+                    android:text="."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="right"
+
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
                     android:id="@+id/btn_7"
                     android:textSize="25dp"
                     android:layout_weight="1"
@@ -414,13 +444,6 @@
                     android:text="8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_gravity="right"
-
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/btn_9"
                     android:text="9"
@@ -444,29 +467,8 @@
                     android:text="0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <Button
-                    android:id="@+id/btn_dot"
-                    android:textSize="25dp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
-                    android:text="."
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
-                <Button
-                    android:id="@+id/btn_"
-                    android:textSize="25dp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
-                    android:onClick="onBtn"
-                    android:text="\u232b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
             </LinearLayout>
         </LinearLayout>
 
