@@ -429,6 +429,10 @@ public class MainActivity extends AppCompatActivity {
                     val.pop();
                     val.push(0d);
                 }
+                if(val.peek()>Math.pow(10,15)){
+                    val.pop();
+                    return true;
+                }
                 return false;
             }
 
