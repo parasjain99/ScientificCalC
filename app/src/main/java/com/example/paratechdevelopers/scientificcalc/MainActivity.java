@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_calculate,btn_ac,btn_ans,btn_c, btn_onDeg;
     private TextView txt_ans, txt_degRadId;
     static final double pi = 3.14159265358979323846264338327950288419716939937510582, eu = 2.7182818284590452353602874713527;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         btn_c = findViewById(R.id.btn_c);
         btn_onDeg = findViewById(R.id.btn_deg);
         txt_degRadId = findViewById(R.id.txt_degRadId);
+        edt_disp.setShowSoftInputOnFocus(false);
+
 
 //        btn_calculate.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -89,19 +92,26 @@ public class MainActivity extends AppCompatActivity {
 //        edt_disp.setSelection(edt_disp.getText().length());
         StringBuffer txt = new StringBuffer(edt_disp.getText().toString());
         String buttonText = b.getText().toString();
-        if(buttonText=="Ans")
+        if(buttonText.equals("Ans"))
             buttonText = ""+ans.a;
-        if(buttonText.length()>1)
+        else if(buttonText.length()>1)
             buttonText+="(";
         int start = Math.max(edt_disp.getSelectionStart(), 0);
         int end = Math.max(edt_disp.getSelectionEnd(), 0);
         int x = Math.min(start, end);
         int y = Math.max(start, end);
-
+        if(buttonText.equals("\u232b")){
+            if(x>0){
+                x=x-1;
+            }
+            buttonText="";
+        }
         txt.replace(x,y,
                 buttonText);
         edt_disp.setText(txt);
         edt_disp.setSelection(x+buttonText.length());
+
+
 
     }
     public void onCalculate(View v){
@@ -134,11 +144,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onClear(View v){
         edt_disp.setText("");
-    }
-    public void onAns(View v){
-        String exp = edt_disp.getText().toString().trim();
-        edt_disp.setText(exp+ans.a);
-        edt_disp.setSelection(edt_disp.getText().length());
     }
     public void calc(String exp){
 //        exp = exp.toLowerCase();
