@@ -219,11 +219,6 @@ public class MainActivity extends AppCompatActivity {
             else if(tokens[i]=='-'){
                 if(i>0&&tokens[i-1]!='('&&tokens[i-1]!='*'&&tokens[i-1]!='/'&&tokens[i-1]!='^'){
                     while (!ops.empty() && (precedence('+')<= precedence(ops.peek()))){
-                        char ch = ops.peek();
-                        if(ch=='/' && values.peek() ==0){
-                            ans.isError = true;
-                            return;
-                        }
                         if(applyOp(ops, values)){
                             ans.isError=true;
                             return;
@@ -265,6 +260,12 @@ public class MainActivity extends AppCompatActivity {
 
             // Current token is an opening brace, push it to 'ops'
             else if (tokens[i] == '('){
+                while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
+                    if(applyOp(ops, values)){
+                        ans.isError=true;
+                        return;
+                    }
+                }
                 if( i>0 && (tokens[i-1]>'0'&&tokens[i-1]<'9'))
                     ops.push('*');
                 ops.push(tokens[i]);
@@ -276,11 +277,6 @@ public class MainActivity extends AppCompatActivity {
             {
 //                boolean flg1 = false;
                 while (ops.peek() != '('){
-                    char ch = ops.peek();
-//                    if(ch=='/' && values.peek() ==0){
-//                        ans.isError = true;
-//                        return;
-//                    }
                     if(applyOp(ops, values)){
                         ans.isError=true;
                         return;
@@ -324,12 +320,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
-                    char ch = ops.peek();
-
-                    if(ch=='/' && values.peek() ==0){
-                        ans.isError = true;
-                        return;
-                    }
                     if(applyOp(ops, values)){
                         ans.isError=true;
                         return;
@@ -531,12 +521,14 @@ public class MainActivity extends AppCompatActivity {
             return 3;
         else if(op == '/' || op == '%')
             return 4;
-        else if(op == '^')
+        else if (op=='(')
             return 5;
-        else if(op == 'S'||op == 'C'||op == 'T'||op == 'L'||op == 'N'||op == 's'||op == 'c'||op == 't')
+        else if(op == '^')
             return 6;
+        else if(op == 'S'||op == 'C'||op == 'T'||op == 'L'||op == 'N'||op == 's'||op == 'c'||op == 't')
+            return 7;
         else if (op =='o')
-            return 100;
+            return 8;
         else return 0;
     }
 }
