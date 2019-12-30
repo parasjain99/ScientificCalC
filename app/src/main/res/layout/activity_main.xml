@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:text="DEG"
                 android:textColor="#ECEFF1"
-                android:textSize="25sp" />
+                android:textSize="40sp" />
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -33,7 +33,6 @@
                     android:textColorHint="#607D8B"
                     android:inputType="none"
                     android:textIsSelectable="true"
-                    android:textCursorDrawable="@null"
                     android:background="@android:color/transparent"
                     android:textAlignment="textEnd"
                     android:layout_width="wrap_content"
@@ -57,7 +56,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
                 <Button
                     android:id="@+id/btn_ans"
                     android:text="Ans"
@@ -105,7 +105,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
                 <Button
                     android:id="@+id/btn_fact"
                     android:textSize="25sp"
@@ -155,7 +156,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
                 <Button
                     android:id="@+id/btn_plus"
                     android:text="+"
@@ -207,7 +209,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
                 <Button
                     android:id="@+id/btn_pi"
                     android:textSize="25sp"
@@ -259,7 +262,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
 
                 <Button
                     android:id="@+id/btn_e"
@@ -311,7 +315,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
                 <Button
                     android:id="@+id/btn_1"
                     android:text="1"
@@ -363,7 +368,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
                 <Button
                     android:id="@+id/btn_4"
                     android:textSize="25sp"
@@ -414,7 +420,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="0dip">
                 <Button
                     android:id="@+id/btn_7"
                     android:textSize="25sp"

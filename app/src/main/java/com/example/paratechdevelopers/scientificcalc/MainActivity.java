@@ -532,3 +532,4 @@ public class MainActivity extends AppCompatActivity {
         else return 0;
     }
 }
+//text select handle
