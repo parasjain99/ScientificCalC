@@ -142,9 +142,12 @@ public class MainActivity extends AppCompatActivity {
     public void onAClear(View v){
         txt_ans.setText("");
     }
+
     public void onClear(View v){
         edt_disp.setText("");
     }
+
+
     public void calc(String exp){
 //        exp = exp.toLowerCase();
         exp = exp.replaceAll("sin","(S");
@@ -274,10 +277,10 @@ public class MainActivity extends AppCompatActivity {
 //                boolean flg1 = false;
                 while (ops.peek() != '('){
                     char ch = ops.peek();
-                    if(ch=='/' && values.peek() ==0){
-                        ans.isError = true;
-                        return;
-                    }
+//                    if(ch=='/' && values.peek() ==0){
+//                        ans.isError = true;
+//                        return;
+//                    }
                     if(applyOp(ops, values)){
                         ans.isError=true;
                         return;
@@ -288,11 +291,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 ops.pop(); // pop (
-                char ch = ops.peek();
-                if(ch=='S'||ch=='C'||ch=='T'||ch=='s'||ch=='c'||ch=='t'||ch=='L'||ch=='N'){
-                    if(applyOp(ops, values)){
-                        ans.isError=true;
-                        return;
+                //
+                char ch;
+                if(ops.size()>0){
+                    ch = ops.peek();
+                    if(ch=='S'||ch=='C'||ch=='T'||ch=='s'||ch=='c'||ch=='t'||ch=='L'||ch=='N'){
+                        if(applyOp(ops, values)){
+                            ans.isError=true;
+                            return;
+                        }
                     }
                 }
                 if( i+1<tokens.length && ((tokens[i+1]>'0'&&tokens[i+1]<'9')||tokens[i+1]=='.'||(tokens[i+1]=='(')))
@@ -503,8 +510,9 @@ public class MainActivity extends AppCompatActivity {
                 val.push(a % b) ;
                 return false;
             }
+            default: return true;
         }
-        return true;
+//        return true;
     }
 
     public double fact(double x){
