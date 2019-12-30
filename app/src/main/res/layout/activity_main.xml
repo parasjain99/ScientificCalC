@@ -56,99 +56,55 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/btn_ans"
                     android:text="Ans"
-                    android:textAllCaps="false"
-                    android:textSize="25sp"
-                    android:background="#004D40"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onBtn"/>
-
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_c"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:textColor="#ECEFF1"
                     android:text="C"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onClear"/>
+                    android:onClick="onClear"
+                    style="@style/operations_buttons" />
                 <Button
                     android:id="@+id/btn_ac"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:textColor="#ECEFF1"
                     android:text="AC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onAClear"/>
+                    android:onClick="onAClear"
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_deg"
-                    android:textSize="25sp"
                     android:text="RAD"
                     android:onClick="onDeg"
-                    android:background="#004D40"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/operations_buttons"/>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/btn_fact"
-                    android:textSize="25sp"
                     android:text="!"
-                    android:background="#004D40"
                     android:onClick="onBtn"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/operations_buttons"/>
 
                 <Button
                     android:id="@+id/btn_pow"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
                     android:onClick="onBtn"
-                    android:textColor="#ECEFF1"
                     android:text="^"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_bktopn"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
                     android:onClick="onBtn"
-                    android:textColor="#ECEFF1"
                     android:text="("
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/operations_buttons"/>
 
                 <Button
                     android:id="@+id/btn_bktclose"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
                     android:onClick="onBtn"
-                    android:textColor="#ECEFF1"
                     android:text=")"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/operations_buttons"/>
 
 
             </LinearLayout>
@@ -156,318 +112,164 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/btn_plus"
                     android:text="+"
-                    android:textSize="25sp"
-                    android:background="#004D40"
                     android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/operations_buttons"/>
 
                 <Button
                     android:id="@+id/btn_minus"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="-"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_divide"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="/"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
 
                 <Button
                     android:id="@+id/btn_multiply"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="×"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/btn_pi"
-                    android:textSize="25sp"
                     android:text="π"
-                    android:background="#004D40"
                     android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_sin"
-                    android:textSize="25sp"
-                    android:textAllCaps="false"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textColor="#ECEFF1"
                     android:text="sin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_cos"
-                    android:textSize="25sp"
-                    android:textAllCaps="false"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textColor="#ECEFF1"
                     android:text="cos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
 
                 <Button
                     android:id="@+id/btn_tan"
-                    android:layout_weight="1"
-                    android:textSize="25sp"
-                    android:textAllCaps="false"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textColor="#ECEFF1"
                     android:text="tan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/btn_e"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="e"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_log"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="log"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
 
                 <Button
                     android:id="@+id/btn_ln"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="ln"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:onClick="onBtn"
+                    style="@style/operations_buttons"/>
                 <Button
                     android:id="@+id/btn_calculate"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#004D40"
-                    android:textColor="#ECEFF1"
                     android:text="="
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onCalculate"/>
+                    android:onClick="onCalculate"
+                    style="@style/operations_buttons"/>
             </LinearLayout>
 
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
                 <Button
                     android:id="@+id/btn_1"
                     android:text="1"
-                    android:textSize="25sp"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
 
                 <Button
                     android:id="@+id/btn_2"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
                 <Button
                     android:id="@+id/btn_3"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
                 <Button
                     android:id="@+id/btn_"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:textAllCaps="false"
-                    android:textColor="#1DE9B6"
-                    android:onClick="onBtn"
                     android:text="\u232b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#1DE9B6"
+                    style="@style/number_buttons" />
 
 
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
                 <Button
                     android:id="@+id/btn_4"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
                 <Button
                     android:id="@+id/btn_5"
                     android:text="5"
-                    android:textSize="25sp"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
 
                 <Button
                     android:id="@+id/btn_6"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
                 <Button
                     android:id="@+id/btn_dot"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="."
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
 
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dip">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
                 <Button
                     android:id="@+id/btn_7"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
 
                 <Button
                     android:id="@+id/btn_8"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
                 <Button
                     android:id="@+id/btn_9"
                     android:text="9"
-                    android:textSize="25sp"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
 
                 <Button
                     android:id="@+id/btn_0"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
-                    android:background="#263238"
-                    android:onClick="onBtn"
-                    android:textAllCaps="false"
-                    android:textColor="#ECEFF1"
                     android:text="0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    style="@style/number_buttons" />
 
             </LinearLayout>
         </LinearLayout>
