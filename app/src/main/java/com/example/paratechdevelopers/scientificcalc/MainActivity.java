@@ -1,9 +1,8 @@
 package com.example.paratechdevelopers.scientificcalc;
-import java.util.Stack;
 import java.lang.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.*;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -187,20 +186,20 @@ public class MainActivity extends AppCompatActivity {
                     if(tokens[i]=='π'){
                         values.push(pi);
                         ops.push('*');
-                        if(applyOp(ops, values)){
-                            ans.isError=true;
-                            return;
-                        }
+//                        if(applyOp(ops, values)){
+//                            ans.isError=true;
+//                            return;
+//                        }
 
                     }
 
                     else if(tokens[i]=='e'){
                         values.push(eu);
                         ops.push('*');
-                        if(applyOp(ops, values)){
-                            ans.isError=true;
-                            return;
-                        }
+//                        if(applyOp(ops, values)){
+//                            ans.isError=true;
+//                            return;
+//                        }
                     }
 
                 }
@@ -260,10 +259,12 @@ public class MainActivity extends AppCompatActivity {
 
             // Current token is an opening brace, push it to 'ops'
             else if (tokens[i] == '('){
-                while (!ops.empty() && (precedence(tokens[i])<= precedence(ops.peek()))){
-                    if(applyOp(ops, values)){
-                        ans.isError=true;
-                        return;
+                if(!ops.empty() &&tokens[i-1]!='S'&& tokens[i-1]!='C'&& tokens[i-1]!='T'&& tokens[i-1]!='N'&& tokens[i-1]!='L'){
+                    while (!ops.empty() && (precedence('b')< precedence(ops.peek()))){
+                        if(applyOp(ops, values)){
+                            ans.isError=true;
+                            return;
+                        }
                     }
                 }
                 if( i>0 && (tokens[i-1]>'0'&&tokens[i-1]<'9'))
@@ -398,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
                 if(isDegree)
                     b=Math.toRadians(b);
                 val.push(Math.sin(b)) ;
-                if(val.peek()<Math.pow(10,-15)){
+                if(val.peek()<(Math.pow(10,-15))&&val.peek()>(-1*Math.pow(10,-15))){
                     val.pop();
                     val.push(0d);
                 }
@@ -410,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
                 if(isDegree)
                     b=Math.toRadians(b);
                 val.push(Math.cos(b)) ;
-                if(val.peek()<Math.pow(10,-15)){
+                if(val.peek()<(Math.pow(10,-15))&&val.peek()>(-1*Math.pow(10,-15))){
                     val.pop();
                     val.push(0d);
                 }
@@ -422,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                 if(isDegree)
                     b=Math.toRadians(b);
                 val.push(Math.tan(b));
-                if(val.peek()<Math.pow(10,-15)){
+                if(val.peek()<(Math.pow(10,-15))&&val.peek()>(-1*Math.pow(10,-15))){
                     val.pop();
                     val.push(0d);
                 }
@@ -521,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
             return 3;
         else if(op == '/' || op == '%')
             return 4;
-        else if (op=='(')
+        else if (op=='b')
             return 5;
         else if(op == '^')
             return 6;
