@@ -1,11 +1,14 @@
 package com.example.paratechdevelopers.scientificcalc;
 import java.lang.*;
+
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.*;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -45,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
         btn_c = findViewById(R.id.btn_c);
         btn_onDeg = findViewById(R.id.btn_deg);
         txt_degRadId = findViewById(R.id.txt_degRadId);
+
+
         edt_disp.setShowSoftInputOnFocus(false);
+//        edt_disp.requestFocus();
+
 
 
 //        btn_calculate.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBtn(View v){
         Button b = (Button)v;
+        edt_disp.requestFocus();
 //        String buttonText = edt_disp.getText().toString();
 //        int x = edt_disp.getSelectionStart();
 //
@@ -237,7 +245,6 @@ public class MainActivity extends AppCompatActivity {
                 StringBuffer sbuf = new StringBuffer();
                 boolean flag = false;
                 // There may be more than one digits in number
-
                 while
                 (i < tokens.length && ((tokens[i] >= '0' && tokens[i] <= '9') || tokens[i] == '.')){
                     if(tokens[i]=='.'){
@@ -249,10 +256,12 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     }
-
                     sbuf.append(tokens[i++]);
                 }
-
+                if(flag&&sbuf.length()<2){
+                    ans.isError = true;
+                    return;
+                }
                 values.push(Double.parseDouble(sbuf.toString()));
                 i--;
             }
@@ -305,7 +314,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             else if(tokens[i]=='!'){
-                values.push(fact(values.pop()));
+                ops.push('!');
+                if(applyOp(ops, values)){
+                    ans.isError=true;
+                    return;
+                }
+//                values.push(fact(values.pop()));
             }
 
             // Current token is an operator.
@@ -499,6 +513,12 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 a = val.pop();
                 val.push(a % b) ;
+                return false;
+            }
+            case '!':{
+                if((b-Math.round(b)!=0)||b<0)
+                    return true;
+                val.push(fact(b));
                 return false;
             }
             default: return true;
